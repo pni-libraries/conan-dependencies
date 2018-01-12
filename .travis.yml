@@ -1,0 +1,27 @@
+language: cpp
+sudo: required
+dist: trusty
+
+
+services:
+    - docker
+    
+before_script:
+    - docker run --name build -i -d -v"$PWD:/src" eugenwintersberger/debian_9:latest
+    - docker exec -it build ls
+    - docker exec -it build bash -c "conan install -b missing --profile ./profiles/deb9_gcc_debug conanfile_devel.txt"
+    - docker exec -it build bash -c "conan install -b missing --profile ./profiles/deb9_gcc_release conanfile_devel.txt"
+    
+script:
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages Boost/1.62.0@lasote/stable"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages hdf5/1.10.1@eugenwintersberger/testing"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages gtest/1.8.0@conan/stable"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages zlib/1.2.8@conan/stable"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages bzip2/1.0.6@conan/stable"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages h5cpp/master@eugenwintersberger/devel"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pnicore/master@eugenwintersberger/devel"
+    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pniio/master@eugenwintersberger/devel"
+    
+after_script:
+    - docker container stop build
+    
