@@ -1,4 +1,6 @@
 [build_requires]
+cmake_installer/3.9.0@conan/stable
+
 [settings]
     arch=x86_64
     build_type=Release

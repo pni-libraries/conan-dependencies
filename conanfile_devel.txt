@@ -14,11 +14,13 @@ cmake
 
 [options]
 Boost:shared=True
+bzip2:shared=True
+gtest:shared=True
 pnicore:with_system_boost=False
 #pniio:with_system_pnicore=False
 #pniio:with_system_boost=False
 #pniio:with_system_hdf5=False
-Boost:python=True
+Boost:python=False
 Boost:without_chrono=True
 Boost:without_container=True
 Boost:without_context=True
