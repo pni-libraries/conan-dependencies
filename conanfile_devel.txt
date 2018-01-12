@@ -6,7 +6,7 @@ zlib/1.2.8@conan/stable
 bzip2/1.0.6@conan/stable
 h5cpp/master@eugenwintersberger/devel
 pnicore/master@eugenwintersberger/devel
-pniio/master@eugenwintersberger/devel
+#pniio/master@eugenwintersberger/devel
 
 
 [generators]
@@ -15,9 +15,9 @@ cmake
 [options]
 Boost:shared=True
 pnicore:with_system_boost=False
-pniio:with_system_pnicore=False
-pniio:with_system_boost=False
-pniio:with_system_hdf5=False
+#pniio:with_system_pnicore=False
+#pniio:with_system_boost=False
+#pniio:with_system_hdf5=False
 Boost:python=True
 Boost:without_chrono=True
 Boost:without_container=True

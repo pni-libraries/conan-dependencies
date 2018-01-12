@@ -20,7 +20,7 @@ script:
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages bzip2/1.0.6@conan/stable"
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages h5cpp/master@eugenwintersberger/devel"
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pnicore/master@eugenwintersberger/devel"
-    - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pniio/master@eugenwintersberger/devel"
+    #- docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pniio/master@eugenwintersberger/devel"
     
 after_script:
     - docker container stop build
