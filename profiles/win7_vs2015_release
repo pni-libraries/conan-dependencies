@@ -4,3 +4,6 @@ compiler.runtime=MD
 compiler.version=14
 build_type=Release
 arch=x86_64
+arch_build=x86_64
+os=Windows
+os_build=Windows
