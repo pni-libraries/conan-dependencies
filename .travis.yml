@@ -6,13 +6,25 @@ dist: trusty
 services:
     - docker
     
-before_script:
+    
+before_install:
+#
+# before we can do anything else we have to start the docker container
+#
     - docker run --name build -i -d -v"$PWD:/src" eugenwintersberger/debian_9:latest
-    - docker exec -it build ls
+    
+install:
+#
+# install the requested packages for Debug and Release builds
+#
+    
     - docker exec -it build bash -c "conan install -b missing --profile ./profiles/deb9_gcc_debug conanfile_devel.txt"
     - docker exec -it build bash -c "conan install -b missing --profile ./profiles/deb9_gcc_release conanfile_devel.txt"
     
-script:
+deploy:
+#
+# upload the packages to my bintray repository for DESY packages
+#
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages Boost/1.62.0@lasote/stable"
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages hdf5/1.10.1@eugenwintersberger/testing"
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages gtest/1.8.0@conan/stable"
@@ -22,6 +34,6 @@ script:
     - docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pnicore/master@eugenwintersberger/devel"
     #- docker exec -e CONAN_LOGIN_USERNAME -e CONAN_PASSWORD -it build bash -c "conan upload --force --all -r desypackages pniio/master@eugenwintersberger/devel"
     
-after_script:
+after_deploy:
     - docker container stop build
     
