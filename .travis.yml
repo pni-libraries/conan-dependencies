@@ -2,6 +2,10 @@ language: cpp
 sudo: required
 dist: trusty
 
+env:
+    - IMAGE=debian_9 PROFILE_RELEASE=deb9_gcc_release PROFILE_DEBUG=deb9_gcc_debug
+    - IMAGE=docker-debian-8 PROFILE_RELEASE=deb8_gcc_release PROFILE_DEBUG=deb8_gcc_debug
+
 
 services:
     - docker
@@ -11,15 +15,15 @@ before_install:
     #
     # before we can do anything else we have to start the docker container
     #
-    - docker run --name build -i -d -v"$PWD:/src" eugenwintersberger/debian_9:latest
+    - docker run --name build -i -d -v"$PWD:/src" eugenwintersberger/$IMAGE:latest
     
 install:
     #
     # install the requested packages for Debug and Release builds
     #
     
-    - docker exec -it build bash -c "conan install -b missing --profile ./profiles/deb9_gcc_debug conanfile_devel.txt"
-    - docker exec -it build bash -c "conan install -b missing --profile ./profiles/deb9_gcc_release conanfile_devel.txt"
+    - docker exec -e PROFILE_RELEASE -it build bash -c "conan install -b missing --profile ./profiles/$PROFILE_RELEASE conanfile_devel.txt"
+    - docker exec -e PROFILE_DEBUG -it build bash -c "conan install -b missing --profile ./profiles/$PROFILE_DEBUG conanfile_devel.txt"
     
 script:
     #
