@@ -16,7 +16,6 @@ cmake
 [options]
 Boost:shared=True
 hdf5:shared=True
-bzip2:shared=True
 zlib:shared=True
 gtest:shared=True
 Boost:python=False
